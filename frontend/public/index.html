@@ -1,24 +1,70 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-        <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-        <title>Emergent | Fullstack App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        
+        <!-- PWA Theme and Colors -->
+        <meta name="theme-color" content="#16213e" />
+        <meta name="msapplication-navbutton-color" content="#16213e" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        
+        <!-- PWA Meta Tags -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Universal PWA Installer" />
+        <meta name="application-name" content="PWA Installer" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        
+        <!-- SEO and Description -->
+        <meta name="description" content="Universaler PWA-Installer der verschiedene Browser erkennt und die optimale Installationsmethode bereitstellt. Verwandelt Web-Apps in native App-Erfahrungen." />
+        <meta name="keywords" content="PWA, Progressive Web App, Installation, Browser, Universal, Chrome, Safari, Firefox, Edge" />
+        <meta name="author" content="Jamancode" />
+        
+        <!-- Open Graph / Social Media -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Universal PWA Installer - Dein digitaler Angelfreund" />
+        <meta property="og:description" content="Universaler PWA-Installer für alle Browser und Plattformen" />
+        <meta property="og:image" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-512x512.png" />
+        <meta property="og:url" content="/" />
+        
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Universal PWA Installer" />
+        <meta name="twitter:description" content="Browser-intelligente PWA-Installation für optimale App-Erfahrung" />
+        <meta name="twitter:image" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-512x512.png" />
+        
+        <!-- Apple Touch Icons (Legacy support) -->
+        <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-128x128.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-128x128.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        
+        <!-- Standard Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="shortcut icon" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        
+        <!-- Manifest -->
+        <link rel="manifest" href="/manifest.json" />
+        
+        <!-- Microsoft Tiles -->
+        <meta name="msapplication-TileColor" content="#16213e" />
+        <meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-144x144.png" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        
+        <!-- Preload Critical Resources -->
+        <link rel="preload" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-192x192.png" as="image" />
+        <link rel="preload" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" as="image" />
+        
+        <!-- DNS Prefetch for External Resources -->
+        <link rel="dns-prefetch" href="//raw.githubusercontent.com" />
+        
+        <title>Universal PWA Installer - Dein digitaler Angelfreund</title>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
