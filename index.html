@@ -52,14 +52,12 @@
 
     <title>Universal PWA Installer</title>
 
-    <!-- Link zur CSS-Datei (wird in Schritt 2 erstellt) -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <header id="app-header">
-        <!-- Logo (img-Platzhalter) und Überschriften -->
         <img src="images/logo.png" alt="Universal PWA Installer Logo" id="app-logo">
         <h1>Universal PWA Installer</h1>
         <p>Verwandelt Web-Apps in native App-Erfahrungen</p>
@@ -76,7 +74,6 @@
                 </div>
             </div>
             <div id="feature-checks">
-                <!-- Platzhalter für Feature-Checks, z.B. -->
                 <div class="feature-check-item">
                     <span class="status-icon">❓</span>
                     <strong>Service Worker</strong>
@@ -274,6 +271,16 @@
                     <h5>Push-Benachrichtigungen</h5>
                     <p>Bleiben Sie über wichtige Updates informiert.</p>
                 </div>
+                <div class="advantage-card">
+                    <span class="icon">💾</span>
+                    <h5>Lokale Datenspeicherung</h5>
+                    <p>Ihre Daten bleiben auch offline verfügbar.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="icon">🎯</span>
+                    <h5>Plattform-optimiert</h5>
+                    <p>Perfekt angepasst für jeden Browser und jedes Gerät.</p>
+                </div>
             </div>
         </section>
 
@@ -281,31 +288,31 @@
             <h3><span class="icon">🌐</span> Browser-Unterstützung</h3>
             <div class="browser-grid">
                 <div class="browser-card">
-                    <img src="images/chrome-logo.png" alt="Chrome">
+                    <div class="browser-icon-wrapper"><img src="images/chrome-logo.png" alt="Chrome"></div>
                     <h6>Chrome</h6>
                     <span class="rating-badge excellent">Exzellent</span>
                     <p>Automatische Installation mit erweiterten Features.</p>
                 </div>
                 <div class="browser-card">
-                    <img src="images/edge-logo.png" alt="Edge">
+                    <div class="browser-icon-wrapper"><img src="images/edge-logo.png" alt="Edge"></div>
                     <h6>Edge</h6>
                     <span class="rating-badge excellent">Exzellent</span>
                     <p>Vollständige PWA-Unterstützung wie Chrome.</p>
                 </div>
                 <div class="browser-card">
-                    <img src="images/safari-logo.png" alt="Safari">
+                    <div class="browser-icon-wrapper"><img src="images/safari-logo.png" alt="Safari"></div>
                     <h6>Safari</h6>
                     <span class="rating-badge good">Gut</span>
                     <p>Manuelle Installation über "Zum Home-Bildschirm".</p>
                 </div>
                 <div class="browser-card">
-                    <img src="images/firefox-logo.png" alt="Firefox">
+                    <div class="browser-icon-wrapper"><img src="images/firefox-logo.png" alt="Firefox"></div>
                     <h6>Firefox</h6>
                     <span class="rating-badge limited">Begrenzt</span>
                     <p>Desktop: Extension erforderlich, Mobile: Vollständig.</p>
                 </div>
                 <div class="browser-card">
-                    <img src="images/samsung-internet-logo.png" alt="Samsung Internet">
+                    <div class="browser-icon-wrapper"><img src="images/samsung-internet-logo.png" alt="Samsung Internet"></div>
                     <h6>Samsung Internet</h6>
                     <span class="rating-badge good">Gut</span>
                     <p>WebAPK-Unterstützung auf Samsung-Geräten.</p>
@@ -319,7 +326,121 @@
         <p>Ursprünglich entwickelt für den Fangplaner</p>
     </footer>
 
-    <!-- Link zur JavaScript-Datei (wird in späteren Schritten erstellt und gefüllt) -->
     <script src="script.js"></script>
+
+    <a
+    id="emergent-badge"
+    target="_blank"
+    href="https://app.emergent.sh/?utm_source=emergent-badge"
+    style="
+        display: flex !important;
+        align-items: center !important;
+        position: fixed !important;
+        bottom: 20px;
+        right: 20px;
+        text-decoration: none;
+        padding: 6px 10px;
+        font-family: -apple-system, BlinkMacSystemFont,
+            &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell,
+            &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;,
+            sans-serif !important;
+        font-size: 12px !important;
+        z-index: 9999 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        border-radius: 8px !important;
+        background-color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    "
+>
+    <div
+        style="display: flex; flex-direction: row; align-items: center"
+    >
+        <img
+            style="width: 20px; height: 20px; margin-right: 8px"
+            src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4"
+        />
+        <p
+            style="
+                color: #000000;
+                font-family: -apple-system, BlinkMacSystemFont,
+                    &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu,
+                    Cantarell, &quot;Open Sans&quot;,
+                    &quot;Helvetica Neue&quot;, sans-serif !important;
+                font-size: 12px !important;
+                align-items: center;
+                margin-bottom: 0;
+            "
+        >
+            Made with Emergent
+        </p>
+    </div>
+</a>
+<script>
+    !(function (t, e) {
+        var o, n, p, r;
+        e.__SV ||
+            ((window.posthog = e),
+            (e._i = []),
+            (e.init = function (i, s, a) {
+                function g(t, e) {
+                    var o = e.split(".");
+                    2 == o.length && ((t = t[o[0]]), (e = o[1])),
+                        (t[e] = function () {
+                            t.push(
+                                [e].concat(
+                                    Array.prototype.slice.call(
+                                        arguments,
+                                        0,
+                                    ),
+                                ),
+                            );
+                        });
+                }
+                ((p = t.createElement("script")).type =
+                    "text/javascript"),
+                    (p.crossOrigin = "anonymous"),
+                    (p.async = !0),
+                    (p.src =
+                        s.api_host.replace(
+                            ".i.posthog.com",
+                            "-assets.i.posthog.com",
+                        ) + "/static/array.js"),
+                    (r =
+                        t.getElementsByTagName(
+                            "script",
+                        )[0]).parentNode.insertBefore(p, r);
+                var u = e;
+                for (
+                    void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
+                        u.people = u.people || [],
+                        u.toString = function (t) {
+                            var e = "posthog";
+                            return (
+                                "posthog" !== a && (e += "." + a),
+                                t || (e += " (stub)"),
+                                e
+                            );
+                        },
+                        u.people.toString = function () {
+                            return u.toString(1) + ".people (stub)";
+                        },
+                        o =
+                            "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
+                                " ",
+                            ),
+                        n = 0;
+                    n < o.length;
+                    n++
+                )
+                    g(u, o[n]);
+                e._i.push([i, s, a]);
+            }),
+            (e.__SV = 1));
+    })(document, window.posthog || []);
+    posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
+        api_host: "https://us.i.posthog.com",
+        person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+    });
+</script>
 </body>
 </html>

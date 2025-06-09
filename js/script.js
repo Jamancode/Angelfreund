@@ -6,6 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const browserLogoEl = document.getElementById('browser-logo');
     const featureChecksEl = document.getElementById('feature-checks');
 
+    // Helper function for bookmark instructions - defined globally within DOMContentLoaded
+    function getBookmarkInstructionsGlobal() {
+        const platform = navigator.platform.toLowerCase();
+        const ua = navigator.userAgent.toLowerCase();
+        if (platform.includes('mac')) {
+            return 'Drücken Sie Cmd+D oder verwenden Sie Menü → Lesezeichen → Seite zu Lesezeichen hinzufügen.';
+        } else if (platform.includes('win') || platform.includes('linux')) {
+            return 'Drücken Sie Strg+D oder verwenden Sie Menü → Lesezeichen → Diese Seite zu Lesezeichen hinzufügen.';
+        } else if (ua.includes('android')) {
+            return 'Tippen Sie auf das Browser-Menü (oft drei Punkte oder Linien) und wählen Sie "Lesezeichen hinzufügen", "Zu Favoriten hinzufügen" oder ein Stern-Symbol.';
+        } else if (ua.includes('iphone') || ua.includes('ipad')) {
+            // For iOS, the main guide already covers "Add to Home Screen", bookmark is less common for app-like access
+            return 'Tippen Sie auf das Teilen-Symbol (<img src="images/ios-share-icon.png" alt="iOS Share Icon" style="height:1em; vertical-align:middle;">) und wählen Sie "Lesezeichen hinzufügen".';
+        } else {
+            return 'Verwenden Sie die Lesezeichen-Funktion Ihres Browsers, um diese Seite zu speichern.';
+        }
+    }
+
     function detectBrowser() {
         const ua = navigator.userAgent;
         const info = {
@@ -76,8 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const browser = detectBrowser();
     window.detectedBrowserInfo = browser;
 
-    // This function is from the previous step, kept for context if needed by other functions.
-    // It's not directly called in this version of the script but was part of the previous setup.
     function logBrowserInfo() {
         const browserDetails = {
             userAgent: navigator.userAgent,
@@ -110,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         console.log('Browser Info (Extended):', browserDetails);
     }
-    logBrowserInfo(); // Call it to log the initial detected info
+    // logBrowserInfo(); // Verbose debugging log, can be re-enabled if needed.
 
     function setBrowserLogo(name) {
         let logoSrc = 'images/browser-placeholder.png';
@@ -129,10 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (browserNameEl) browserNameEl.textContent = browser.name.charAt(0).toUpperCase() + browser.name.slice(1) + (browser.version ? ' ' + browser.version : '');
     if (browserPlatformEl) {
-        let platform = browser.isMobile ? 'Mobile' : 'Desktop';
-        if (browser.isIOS) platform += ' (iOS)';
-        else if (browser.isAndroid) platform += ' (Android)';
-        browserPlatformEl.textContent = platform;
+        let platformText = browser.isMobile ? 'Mobile' : 'Desktop';
+        if (browser.isIOS) platformText += ' (iOS)';
+        else if (browser.isAndroid) platformText += ' (Android)';
+        browserPlatformEl.textContent = platformText;
     }
     setBrowserLogo(browser.name);
 
@@ -184,84 +200,78 @@ document.addEventListener('DOMContentLoaded', () => {
         const chromeInstallBtn = document.getElementById('chrome-install-btn');
         if(chromeInstallBtn && (window.detectedBrowserInfo.name === 'chrome' || window.detectedBrowserInfo.name === 'edge' || window.detectedBrowserInfo.name === 'samsung')){
             chromeInstallBtn.style.display = 'inline-flex';
-             // Show install instructions paragraph as well
             const chromeInstallInstructions = document.getElementById('chrome-install-instructions');
             if (chromeInstallInstructions) {
-                chromeInstallInstructions.style.display = 'block';
+                // Instructions might be initially visible, hide them if button appears
+                // chromeInstallInstructions.style.display = 'none';
             }
         }
         console.log('beforeinstallprompt event gefangen. App kann installiert werden.');
-        // Update installation strategy display after prompt is detected
         displayInstallationStrategy();
     });
 
     window.addEventListener('appinstalled', () => {
         console.log('PWA wurde installiert');
         window.detectedBrowserInfo.isStandalone = true;
-        const standaloneFeatureEl = document.querySelector('#feature-checks .feature-check-item:nth-child(3)'); // Target the div
+        const standaloneFeatureEl = document.querySelector('#feature-checks .feature-check-item:nth-child(3)');
         if(standaloneFeatureEl){
              standaloneFeatureEl.querySelector('.status-icon').textContent = '✅';
              standaloneFeatureEl.classList.remove('not-supported');
              standaloneFeatureEl.classList.add('supported');
         }
-        displayInstallationStrategy(); // Update UI to show success message
+        displayInstallationStrategy();
     });
 
-    // NEUER CODE HIER:
     function displayInstallationStrategy() {
         const browser = window.detectedBrowserInfo;
-        let strategy = 'fallback'; // Default Strategie
+        let strategy = 'fallback';
 
         if (browser.isStandalone) {
             strategy = 'already-installed';
-        } else if (browser.hasBeforeInstallPrompt && (browser.name === 'chrome' || browser.name === 'edge' || browser.name === 'samsung' || (browser.name === 'opera' && browser.isAndroid) )) { // Opera Android might support it
+        } else if (browser.hasBeforeInstallPrompt && (browser.name === 'chrome' || browser.name === 'edge' || browser.name === 'samsung' || (browser.name === 'opera' && browser.isAndroid) )) {
             strategy = 'automatic';
         } else if (browser.isIOS && browser.name === 'safari') {
             strategy = 'ios-manual';
-        } else if (browser.name === 'firefox' && !browser.isMobile) { // Firefox Desktop
+        } else if (browser.name === 'firefox' && !browser.isMobile) {
             strategy = 'firefox-desktop';
-        } else if (browser.name === 'firefox' && browser.isMobile) { // Firefox Mobile (Android or iOS)
-             // Firefox on Android supports "Add to Home screen" from menu
-             // Firefox on iOS uses Safari's engine, so manual via share like Safari
-            strategy = browser.isAndroid ? 'firefox-android' : 'ios-manual'; // Treat Fx iOS like Safari for install
+        } else if (browser.name === 'firefox' && browser.isMobile) {
+            strategy = browser.isAndroid ? 'firefox-android' : 'ios-manual';
         }
-        // Weitere spezifische Fälle könnten hier hinzugefügt werden, z.B. für Opera.
 
-        console.log('Determined installation strategy:', strategy);
-        console.log('Browser details for strategy:', browser);
+        // console.log('Determined installation strategy:', strategy); // Debugging log
+        // console.log('Browser details for strategy:', browser); // Debugging log
 
-
-        // Alle Installer-Sektionen ausblenden
         const installerSections = document.querySelectorAll('.installer-section');
         installerSections.forEach(section => section.style.display = 'none');
 
-        // Die Haupt-Installations-Area leeren oder ausblenden, wenn eine spezifische Sektion gezeigt wird
         const installationArea = document.getElementById('installation-area');
         if (installationArea) {
-            installationArea.innerHTML = ''; // Inhalt leeren
-            installationArea.style.display = 'none'; // Oder ganz ausblenden
+            installationArea.innerHTML = '';
+            installationArea.style.display = 'none';
         }
 
-        // Ziel-Sektion basierend auf Strategie auswählen und anzeigen
         let targetSectionId = '';
         switch (strategy) {
             case 'already-installed':
                 targetSectionId = 'installation-success-section';
                 break;
             case 'automatic':
-                targetSectionId = 'chrome-installer-section'; // Diese Sektion ist für Chrome, Edge, Samsung, Opera (Android)
+                targetSectionId = 'chrome-installer-section';
                 const chromeInstallBtn = document.getElementById('chrome-install-btn');
                 const chromeInstallInstructions = document.getElementById('chrome-install-instructions');
                 if(chromeInstallBtn){
                     chromeInstallBtn.style.display = window.deferredInstallPrompt ? 'inline-flex' : 'none';
                 }
                 if(chromeInstallInstructions){
-                    chromeInstallInstructions.style.display = 'block'; // Always show instructions if automatic is the strategy
+                    // Show instructions if button is hidden AND prompt is not available (or already used)
+                    chromeInstallInstructions.style.display = !window.deferredInstallPrompt ? 'block' : 'none';
+                    if (!window.deferredInstallPrompt) {
+                         chromeInstallInstructions.textContent = 'Sie können die App auch später über das Browser-Menü (Drei Punkte -> App installieren) installieren.';
+                    }
                 }
                 break;
             case 'ios-manual':
                 targetSectionId = 'ios-installer-section';
-                // If it's Firefox on iOS, adjust title/text slightly if needed
                 if (browser.name === 'firefox' && browser.isIOS) {
                     const iosSectionTitle = document.querySelector('#ios-installer-section h2');
                     if (iosSectionTitle) iosSectionTitle.innerHTML = `<span class="icon">📱</span> Firefox auf iOS - Manuelle Installation`;
@@ -271,48 +281,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetSectionId = 'firefox-fallback-section';
                 break;
             case 'firefox-android':
-                // For Firefox Android, we can use a modified version of the fallback or a new specific section.
-                // For now, let's assume we want to prompt them to use the "Add to Home Screen" feature from the menu.
-                // We can reuse the fallback section and customize its content or create a new one.
-                // Let's try to customize the fallback section for this.
                 targetSectionId = 'fallback-installer-section';
                 const fallbackTitle = document.querySelector('#fallback-installer-section h2');
                 const fallbackText = document.querySelector('#fallback-installer-section p');
-                const fallbackBookmarkBtn = document.getElementById('fallback-bookmark-btn');
-                const fallbackHomescreenBtn = document.getElementById('fallback-homescreen-btn');
-                const fallbackOfflineFileBtn = document.getElementById('fallback-offline-file-btn');
+                const fBookmarkBtn = document.getElementById('fallback-bookmark-btn');
+                const fHomescreenBtn = document.getElementById('fallback-homescreen-btn');
+                const fOfflineFileBtn = document.getElementById('fallback-offline-file-btn');
 
                 if (fallbackTitle) fallbackTitle.innerHTML = `<img src="images/firefox-logo.png" alt="Firefox Logo" class="section-icon"> Firefox Mobile - Installation`;
                 if (fallbackText) fallbackText.textContent = 'Du kannst diese App zu deinem Startbildschirm hinzufügen für ein App-ähnliches Erlebnis:';
 
-                if(fallbackHomescreenBtn) {
-                    fallbackHomescreenBtn.innerHTML = '<span class="icon">➕</span> Zum Startbildschirm hinzufügen (via Menü)';
-                    fallbackHomescreenBtn.style.display = 'inline-flex';
-                    // Potentially add specific instructions for Firefox Android menu
+                if(fHomescreenBtn) {
+                    fHomescreenBtn.innerHTML = '<span class="icon">➕</span> Zum Startbildschirm hinzufügen (via Menü)';
+                    fHomescreenBtn.style.display = 'inline-flex';
                     let instructionsEl = document.getElementById('firefox-android-instructions');
                     if (!instructionsEl && fallbackText) {
                         instructionsEl = document.createElement('p');
                         instructionsEl.id = 'firefox-android-instructions';
                         instructionsEl.innerHTML = `Öffne das Firefox-Menü (oft drei Punkte <span style="font-weight:bold; font-size:1.2em;">⋮</span>) und wähle <strong style="color: var(--text-accent);">'Zum Startbildschirm hinzufügen'</strong> oder <strong style="color: var(--text-accent);">'Seite installieren'</strong>.`;
                         fallbackText.parentNode.insertBefore(instructionsEl, fallbackText.nextSibling);
+                    } else if (instructionsEl) {
+                        instructionsEl.style.display = 'block'; // Make sure it's visible
                     }
                 }
-                if(fallbackBookmarkBtn) fallbackBookmarkBtn.style.display = 'none'; // Hide other generic options
-                if(fallbackOfflineFileBtn) fallbackOfflineFileBtn.style.display = 'none';
+                if(fBookmarkBtn) fBookmarkBtn.style.display = 'none';
+                if(fOfflineFileBtn) fOfflineFileBtn.style.display = 'none';
                 break;
             case 'fallback':
             default:
                 targetSectionId = 'fallback-installer-section';
-                const defaultFallbackTitle = document.querySelector('#fallback-installer-section h2');
-                const defaultFallbackText = document.querySelector('#fallback-installer-section p');
-                const defaultfallbackBookmarkBtn = document.getElementById('fallback-bookmark-btn');
-                const defaultfallbackHomescreenBtn = document.getElementById('fallback-homescreen-btn');
-                const defaultfallbackOfflineFileBtn = document.getElementById('fallback-offline-file-btn');
-                if (defaultFallbackTitle) defaultFallbackTitle.innerHTML = `<span class="icon">❓</span> Andere Browser - Manuelle Optionen`;
-                if (defaultFallbackText) defaultFallbackText.textContent = 'Ihr Browser unterstützt möglicherweise keine direkte PWA-Installation. Hier sind einige Alternativen:';
-                if(defaultfallbackBookmarkBtn) defaultfallbackBookmarkBtn.style.display = 'inline-flex';
-                if(defaultfallbackHomescreenBtn) defaultfallbackHomescreenBtn.style.display = 'inline-flex';
-                if(defaultfallbackOfflineFileBtn) defaultfallbackOfflineFileBtn.style.display = 'inline-flex';
+                const dFallbackTitle = document.querySelector('#fallback-installer-section h2');
+                const dFallbackText = document.querySelector('#fallback-installer-section p');
+                const dFallbackBookmarkBtn = document.getElementById('fallback-bookmark-btn');
+                const dFallbackHomescreenBtn = document.getElementById('fallback-homescreen-btn');
+                const dFallbackOfflineFileBtn = document.getElementById('fallback-offline-file-btn');
+                const ffAndroidInstructions = document.getElementById('firefox-android-instructions');
+
+                if (dFallbackTitle) dFallbackTitle.innerHTML = `<span class="icon">❓</span> Andere Browser - Manuelle Optionen`;
+                if (dFallbackText) dFallbackText.textContent = 'Ihr Browser unterstützt möglicherweise keine direkte PWA-Installation. Hier sind einige Alternativen:';
+                if(dFallbackBookmarkBtn) dFallbackBookmarkBtn.style.display = 'inline-flex';
+                if(dFallbackHomescreenBtn) dFallbackHomescreenBtn.style.display = 'inline-flex';
+                if(dFallbackOfflineFileBtn) dFallbackOfflineFileBtn.style.display = 'inline-flex';
+                if(ffAndroidInstructions) ffAndroidInstructions.style.display = 'none'; // Hide Firefox specific instructions
 
                 break;
         }
@@ -321,28 +331,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetSection) {
             targetSection.style.display = 'block';
         } else if (installationArea && strategy !== 'already-installed') {
-            // If no specific section found (except success), show the general installation-area with a message
             installationArea.innerHTML = '<p>Lade Installationsanweisungen für deinen Browser...</p>';
             installationArea.style.display = 'block';
         }
     }
 
-    // Service Worker Registrierung (Pfad muss korrekt sein, relativ zum Root)
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
                 console.log('Service Worker registered with scope:', registration.scope);
-                window.swRegistration = registration; // Make it available globally for updates etc.
+                window.swRegistration = registration;
             })
             .catch((error) => {
                 console.error('Service Worker registration failed:', error);
             });
     }
 
-    // Initiale Anzeige der Installationsstrategie
     displayInstallationStrategy();
 
-    // --- Firefox Desktop Sektion Logik ---
     const firefoxFallbackSection = document.getElementById('firefox-fallback-section');
     if (firefoxFallbackSection) {
         const tabButtons = firefoxFallbackSection.querySelectorAll('.tab-button');
@@ -350,21 +356,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Deaktiviere alle Tabs und Panels
                 tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabPanels.forEach(panel => panel.classList.remove('active')); // CSS steuert display:none
-
-                // Aktiviere den geklickten Tab und das zugehörige Panel
+                tabPanels.forEach(panel => panel.classList.remove('active'));
                 button.classList.add('active');
                 const targetPanelId = button.getAttribute('data-tab');
                 const targetPanel = document.getElementById(targetPanelId);
                 if (targetPanel) {
-                    targetPanel.classList.add('active'); // CSS steuert display:block/flex
+                    targetPanel.classList.add('active');
                 }
             });
         });
 
-        // Extension installieren Button
         const extInstallBtn = document.getElementById('firefox-extension-install-btn');
         if (extInstallBtn) {
             extInstallBtn.addEventListener('click', () => {
@@ -372,7 +374,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Seite neu laden Button
         const reloadBtn = document.getElementById('firefox-reload-btn');
         if (reloadBtn) {
             reloadBtn.addEventListener('click', () => {
@@ -380,15 +381,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Desktop-Shortcut erstellen Button
         const createShortcutBtn = document.getElementById('firefox-create-shortcut-btn');
         if (createShortcutBtn) {
             createShortcutBtn.addEventListener('click', () => {
                 const userAgent = navigator.userAgent.toLowerCase();
-                const appName = 'UniversalPWAInstaller'; // Sicherer Dateiname
-                const appTitle = 'Universal PWA Installer';
+                const appName = 'UniversalPWAInstaller';
+                const appTitle = document.title || 'Universal PWA Installer';
                 const appUrl = window.location.href;
-                // Versuche, ein Icon zu finden, das im `images` Ordner sein sollte
                 const iconUrl = window.location.origin + '/images/icon-512x512.png';
 
                 let content = '';
@@ -421,13 +420,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-    // --- Ende Firefox Desktop Sektion Logik ---
 
-    // --- iOS Installer Sektion Logik ---
     const iosInstallerSection = document.getElementById('ios-installer-section');
     if (iosInstallerSection && window.detectedBrowserInfo && window.detectedBrowserInfo.isIOS && (window.detectedBrowserInfo.name === 'safari' || (window.detectedBrowserInfo.name === 'firefox' && window.detectedBrowserInfo.isIOS) )) {
-        // Nur ausführen, wenn es sich um iOS Safari oder Firefox auf iOS handelt und die Sektion angezeigt wird
-
         const iosVersionEl = iosInstallerSection.querySelector('#ios-version-info');
         const shortcutsAppEl = iosInstallerSection.querySelector('#shortcuts-app-info');
         const createShortcutBtnIOS = iosInstallerSection.querySelector('#ios-create-shortcut-btn');
@@ -436,13 +431,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const advancedHelpContent = iosInstallerSection.querySelector('#ios-advanced-help-content');
 
         function getIOSVersion() {
-            // For Firefox on iOS, userAgent might be different
             const ua = navigator.userAgent;
             let match;
             if (window.detectedBrowserInfo.name === 'firefox' && window.detectedBrowserInfo.isIOS) {
-                 // Example: Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) FxiOS/103.0 Mobile/15E148 Safari/605.1.15
                 match = ua.match(/OS (\d+)_(\d*)/);
-            } else { // Safari
+            } else {
                 match = ua.match(/OS (\d+)_(\d*)/);
             }
 
@@ -453,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const iosVersion = getIOSVersion();
-        const hasShortcutsApp = iosVersion >= 12; // Shortcuts app was introduced in iOS 12
+        const hasShortcutsApp = iosVersion >= 12;
 
         if (iosVersionEl) {
             iosVersionEl.textContent = `iOS Version: ${iosVersion > 0 ? iosVersion : 'Unbekannt'}`;
@@ -465,23 +458,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // iOS Shortcuts Alternative Button
         if (createShortcutBtnIOS && hasShortcutsApp) {
             createShortcutBtnIOS.addEventListener('click', () => {
-                // This is a simplified example. Real .shortcut files are binary plists.
-                // A more robust way is to link to a pre-made shortcut if available online.
-                // For demonstration, we'll try to mimic a URL scheme if one existed for direct import,
-                // but this is highly speculative and likely won't work as simply as this.
-                // The provided JSON structure is for the Shortcuts app's internal format,
-                // which isn't directly importable via a simple base64 encoded URL in this manner.
-                // A common approach is to host the .shortcut file and link to it.
                 alert('Die Erstellung von iOS Shortcuts über diesen Weg ist komplex und hier nur simuliert. In einer echten Anwendung würde man auf eine .shortcut Datei verlinken oder eine Anleitung geben.');
-                // Example of what one might try if a URL scheme existed (THIS IS SPECULATIVE):
-                // const shortcutData = { /* ... complex shortcut structure ... */ };
-                // const shortcutURL = `shortcuts://import-workflow/?url=${encodeURIComponent(btoa(JSON.stringify(shortcutData)))}`;
-                // window.open(shortcutURL, '_blank');
-                // A more realistic approach for a web page:
-                // window.open('https://www.icloud.com/shortcuts/yourshortcutid', '_blank'); // If you host it
             });
         }
 
@@ -502,14 +481,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const pushNotificationsFeature = iosInstallerSection.querySelector('#ios-push-feature .limitation-item-content p'); // Target the p tag for text
-        const pushNotificationsTitle = iosInstallerSection.querySelector('#ios-push-feature .limitation-item-content strong'); // Target the strong tag
+        const pushNotificationsFeature = iosInstallerSection.querySelector('#ios-push-feature .limitation-item-content p');
+        const pushNotificationsTitle = iosInstallerSection.querySelector('#ios-push-feature .limitation-item-content strong');
 
         if (pushNotificationsFeature && pushNotificationsTitle) {
             if (iosVersion >= 16.4) {
                 pushNotificationsTitle.textContent = 'Push-Notifications';
                 pushNotificationsFeature.textContent = 'Verfügbar für Web-Apps, die dem Home-Bildschirm hinzugefügt wurden (seit iOS 16.4).';
-            } else if (iosVersion >= 15.4 && iosVersion < 16) { // Some earlier support might be mentioned but not full
+            } else if (iosVersion >= 15.4 && iosVersion < 16) {
                 pushNotificationsTitle.textContent = 'Push-Notifications';
                 pushNotificationsFeature.textContent = 'Eingeschränkte Unterstützung. Volle Unterstützung ab iOS 16.4.';
             }
@@ -518,48 +497,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 pushNotificationsFeature.textContent = 'Nicht oder nur sehr eingeschränkt verfügbar vor iOS 16.4.';
             }
         }
-         // Ensure the main section is visible if this logic runs
         if(window.getComputedStyle(iosInstallerSection).display === 'none'){
             iosInstallerSection.style.display = 'block';
         }
     }
-    // --- Ende iOS Installer Sektion Logik ---
 
-    // --- Chrome/Edge Installer Sektion Logik ---
-    const chromeInstallerSection = document.getElementById('chrome-installer-section'); // Parent section
+    const chromeInstallerSection = document.getElementById('chrome-installer-section');
     const chromeInstallBtn = document.getElementById('chrome-install-btn');
     const chromeInstallInstructions = document.getElementById('chrome-install-instructions');
 
     if (chromeInstallBtn) {
         chromeInstallBtn.addEventListener('click', async () => {
             if (window.deferredInstallPrompt) {
-                // Zeige den Installations-Prompt
                 window.deferredInstallPrompt.prompt();
-
-                // Warte auf die Nutzerentscheidung
                 const { outcome } = await window.deferredInstallPrompt.userChoice;
                 console.log('User choice for A2HS prompt:', outcome);
-
                 if (outcome === 'accepted') {
                     console.log('User accepted the A2HS prompt');
-                    // Die 'appinstalled' Event-Listener wird den Rest handhaben (UI-Update zum Erfolgsbildschirm)
-                    // Ggf. Button hier schon ausblenden oder Text ändern.
                 } else {
                     console.log('User dismissed the A2HS prompt');
-                    // Zeige alternative Anweisungen, da der Prompt abgelehnt wurde.
                      if (chromeInstallInstructions) {
                         chromeInstallInstructions.textContent = 'Sie haben die Installation abgelehnt. Sie können die App auch später über das Browser-Menü (oft drei Punkte oder ein Pfeil-Symbol) und dann über "App installieren" oder "Zum Startbildschirm hinzufügen" installieren.';
                         chromeInstallInstructions.style.display = 'block';
                     }
                 }
-                // Das Prompt kann nur einmal verwendet werden.
                 window.deferredInstallPrompt = null;
-                // Button wieder verstecken, da der Prompt verbraucht ist
                 chromeInstallBtn.style.display = 'none';
 
             } else {
-                // Fallback, falls deferredPrompt aus irgendeinem Grund null ist, obwohl der Button sichtbar war
-                // (z.B. wenn der User es schon installiert hat oder der Prompt abgelaufen ist)
                  if (chromeInstallInstructions) {
                     chromeInstallInstructions.textContent = 'Der Installations-Prompt ist derzeit nicht verfügbar. Möglicherweise haben Sie die App bereits installiert oder der Prompt ist abgelaufen. Versuchen Sie es später erneut oder über das Browser-Menü.';
                     chromeInstallInstructions.style.display = 'block';
@@ -568,8 +533,213 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // Die Logik zur initialen Anzeige des Buttons (wenn 'beforeinstallprompt' feuert)
-    // und der Instruktionen (wenn kein Prompt da ist) ist bereits in den 'beforeinstallprompt'
-    // Listener und der 'displayInstallationStrategy' Funktion integriert.
-    // 'displayInstallationStrategy' wird am Ende von DOMContentLoaded aufgerufen.
+
+    const fallbackInstallerSection = document.getElementById('fallback-installer-section');
+    if (fallbackInstallerSection) {
+        const bookmarkBtn = document.getElementById('fallback-bookmark-btn');
+        const homescreenBtn = document.getElementById('fallback-homescreen-btn');
+        const offlineFileBtn = document.getElementById('fallback-offline-file-btn');
+
+        if (bookmarkBtn) {
+            bookmarkBtn.addEventListener('click', () => {
+                const title = document.title;
+                const url = window.location.href;
+                try {
+                    if (window.sidebar && window.sidebar.addPanel) {
+                        window.sidebar.addPanel(title, url, '');
+                    } else if (window.external && ('AddFavorite' in window.external)) {
+                        window.external.AddFavorite(url, title);
+                    } else {
+                        const instructionText = 'Um diese Seite als Lesezeichen zu speichern, ' + getBookmarkInstructionsGlobal();
+                        const fallbackInstructionsEl = document.getElementById('fallback-instructions-text');
+                        if (fallbackInstructionsEl) {
+                            fallbackInstructionsEl.innerHTML = instructionText;
+                            fallbackInstructionsEl.style.display = 'block';
+                        } else {
+                            alert(instructionText.replace(/<img[^>]*>/g,""));
+                        }
+                    }
+                } catch (e) {
+                     const instructionText = 'Um diese Seite als Lesezeichen zu speichern, ' + getBookmarkInstructionsGlobal();
+                     const fallbackInstructionsEl = document.getElementById('fallback-instructions-text');
+                    if (fallbackInstructionsEl) {
+                        fallbackInstructionsEl.innerHTML = instructionText;
+                        fallbackInstructionsEl.style.display = 'block';
+                    } else {
+                        alert(instructionText.replace(/<img[^>]*>/g,""));
+                    }
+                }
+            });
+        }
+
+        if (homescreenBtn) {
+            homescreenBtn.addEventListener('click', () => {
+                const instructionText = 'So fügen Sie diese Seite zu Ihrem Startbildschirm hinzu (falls von Ihrem Browser unterstützt):\n\n1. Öffnen Sie das Browser-Menü (oft drei Punkte oder Linien).\n2. Suchen Sie nach einer Option wie "Zum Startbildschirm hinzufügen", "App installieren", "Seite anheften" oder einem ähnlichen Wortlaut.\n3. Folgen Sie den Anweisungen Ihres Browsers.';
+                const fallbackInstructionsEl = document.getElementById('fallback-instructions-text');
+                if (fallbackInstructionsEl) {
+                    fallbackInstructionsEl.textContent = instructionText;
+                    fallbackInstructionsEl.style.display = 'block';
+                } else {
+                    alert(instructionText);
+                }
+            });
+        }
+
+        if (offlineFileBtn) {
+            offlineFileBtn.addEventListener('click', () => {
+                const baseUrl = window.location.origin + (window.location.pathname.startsWith('/') ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) : '');
+                let iconPath = baseUrl + '/images/icon-192x192.png';
+
+                const appLogoEl = document.getElementById('app-logo');
+                if (appLogoEl && appLogoEl.src) {
+                    if (appLogoEl.src.startsWith('http')) {
+                        iconPath = appLogoEl.src;
+                    } else {
+                        iconPath = window.location.origin + (appLogoEl.src.startsWith('/') ? '' : '/') + appLogoEl.src;
+                    }
+                }
+
+                const htmlContent = `<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${document.title || 'PWA Installer'} - Offline Link</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background-color: #0a1a2e; color: #e2e8f0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding:20px; box-sizing: border-box; text-align: center; }
+        .container { max-width: 600px; width:100%; padding: 25px; background-color: #16213e; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
+        h1 { color: #63b3ed; font-size: 1.8em; margin-bottom: 0.5em; }
+        p { color: #a0aec0; line-height: 1.6; margin-bottom: 1em; font-size: 1em;}
+        a.btn { display: inline-block; padding: 12px 25px; background: linear-gradient(135deg, #3182ce, #0bc5ea); color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; font-weight: bold; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        a.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(49,130,206,0.5); }
+        img.app-logo { max-width: 80px; margin-bottom: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);}
+        small { color: #a0aec0; margin-top: 30px; display: block; font-size: 0.85em;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="${iconPath}" alt="App Logo" class="app-logo">
+        <h1>${document.title || 'Universal PWA Installer'}</h1>
+        <p>Dies ist eine Offline-Verknüpfung zur Web-App.</p>
+        <p>Klicken Sie auf den folgenden Link, um die aktuelle Version der App zu öffnen, wenn Sie online sind:</p>
+        <a href="${window.location.href}" target="_blank" rel="noopener noreferrer" class="btn">Zur App: ${document.title || 'Universal PWA Installer'}</a>
+        <p><small>Sie können diese HTML-Datei lokal speichern (z.B. auf Ihrem Desktop) und öffnen, um schnell zur App zurückzukehren.</small></p>
+    </div>
+</body>
+</html>`;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = (document.title || 'PWA-Installer').replace(/[^a-z0-9]/gi, '_') + '-Link.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+        if (!document.getElementById('fallback-instructions-text') && fallbackInstallerSection.querySelector('p')) {
+            const p = fallbackInstallerSection.querySelector('p');
+            const instructionsDiv = document.createElement('div');
+            instructionsDiv.id = 'fallback-instructions-text';
+            instructionsDiv.style.display = 'none';
+            instructionsDiv.style.marginTop = '1rem';
+            instructionsDiv.style.padding = '1rem';
+            instructionsDiv.style.background = 'var(--bg-tertiary)';
+            instructionsDiv.style.borderRadius = 'var(--radius-md)';
+            instructionsDiv.style.border = '1px solid var(--border-color)';
+            const buttonContainer = fallbackInstallerSection.querySelector('.button-container');
+            if (buttonContainer) {
+                buttonContainer.parentNode.insertBefore(instructionsDiv, buttonContainer.nextSibling);
+            } else if (offlineFileBtn) {
+                 offlineFileBtn.parentNode.insertBefore(instructionsDiv, offlineFileBtn.nextSibling);
+            } else {
+                p.parentNode.insertBefore(instructionsDiv, p.nextSibling);
+            }
+        }
+    }
+
+    const additionalOptionsSection = document.getElementById('additional-options');
+    if (additionalOptionsSection) {
+        const addBookmarkBtn = document.getElementById('additional-bookmark-btn');
+        const setHomepageBtn = document.getElementById('additional-homepage-btn');
+
+        if (addBookmarkBtn) {
+            addBookmarkBtn.addEventListener('click', () => {
+                const title = document.title;
+                const url = window.location.href;
+                try {
+                    if (window.sidebar && window.sidebar.addPanel) {
+                        window.sidebar.addPanel(title, url, '');
+                    } else if (window.external && ('AddFavorite' in window.external)) {
+                        window.external.AddFavorite(url, title);
+                    } else {
+                        if (typeof getBookmarkInstructionsGlobal === 'function') {
+                            const instructionText = 'Um diese Seite als Lesezeichen zu speichern, ' + getBookmarkInstructionsGlobal().replace(/<img[^>]*>/g,"");
+                            alert(instructionText);
+                        } else {
+                            alert('Um diese Seite als Lesezeichen zu speichern, drücken Sie bitte Strg+D (Windows/Linux) oder Cmd+D (Mac).');
+                        }
+                    }
+                } catch (e) {
+                    if (typeof getBookmarkInstructionsGlobal === 'function') {
+                        const instructionText = 'Um diese Seite als Lesezeichen zu speichern, ' + getBookmarkInstructionsGlobal().replace(/<img[^>]*>/g,"");
+                        alert(instructionText);
+                    } else {
+                        alert('Um diese Seite als Lesezeichen zu speichern, drücken Sie bitte Strg+D (Windows/Linux) oder Cmd+D (Mac).');
+                    }
+                }
+            });
+        }
+
+        if (setHomepageBtn) {
+            setHomepageBtn.addEventListener('click', () => {
+                alert('Um diese Seite als Ihre Startseite festzulegen, gehen Sie bitte wie folgt vor:\n\n1. Öffnen Sie die Einstellungen Ihres Browsers.\n2. Suchen Sie nach dem Abschnitt "Startseite", "Beim Start" oder "Homepage".\n3. Geben Sie dort die folgende URL ein: ' + window.location.href + '\n4. Speichern Sie die Änderungen.\n\nDie genauen Schritte können je nach Browser leicht variieren.');
+            });
+        }
+    }
+
+    // --- "Problembehebung" Sektion Logik (Akkordeon) ---
+    const troubleshootingSection = document.getElementById('troubleshooting');
+    if (troubleshootingSection) {
+        // It's better to query within the section for its specific collapsibles
+        const collapsibleHeaders = troubleshootingSection.querySelectorAll('.collapsible-header');
+
+        collapsibleHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                // Ensure the icon span exists before trying to set its textContent
+                const iconSpan = header.querySelector('span:first-child'); // Assuming icon is the first span
+
+                if (content && content.classList.contains('collapsible-content')) {
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                        if (iconSpan) iconSpan.textContent = '▼';
+                        header.classList.remove('active');
+                    } else {
+                        content.style.display = 'block';
+                        if (iconSpan) iconSpan.textContent = '▲';
+                        header.classList.add('active');
+                    }
+                }
+            });
+
+            // Initial hide: Only hide if not already styled by CSS to be open (e.g. via an 'open' class)
+            // The provided HTML has them without an 'open' class, so they should be hidden.
+            const initialContent = header.nextElementSibling;
+            if (initialContent && initialContent.classList.contains('collapsible-content')) {
+                 // Check if 'open' class is present or if CSS already made it block
+                const isInitiallyOpen = initialContent.classList.contains('open') || getComputedStyle(initialContent).display === 'block';
+                if (!isInitiallyOpen) {
+                    initialContent.style.display = 'none';
+                } else {
+                     // If it's meant to be open, ensure icon is correct
+                    const iconSpan = header.querySelector('span:first-child');
+                    if (iconSpan) iconSpan.textContent = '▲';
+                    header.classList.add('active');
+                }
+            }
+        });
+    }
+    // --- Ende "Problembehebung" Sektion Logik ---
 });

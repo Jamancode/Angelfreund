@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+        <!-- PWA Theme and Colors -->
+        <meta name="theme-color" content="#16213e" />
+        <meta name="msapplication-navbutton-color" content="#16213e" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+        <!-- PWA Meta Tags -->
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Universal PWA Installer" />
+        <meta name="application-name" content="PWA Installer" />
+        <meta name="mobile-web-app-capable" content="yes" />
+
+        <!-- SEO and Description -->
+        <meta name="description" content="Universaler PWA-Installer der verschiedene Browser erkennt und die optimale Installationsmethode bereitstellt. Verwandelt Web-Apps in native App-Erfahrungen." />
+        <meta name="keywords" content="PWA, Progressive Web App, Installation, Browser, Universal, Chrome, Safari, Firefox, Edge" />
+        <meta name="author" content="Jamancode" />
+
+        <!-- Open Graph / Social Media -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Universal PWA Installer - Dein digitaler Angelfreund" />
+        <meta property="og:description" content="Universaler PWA-Installer für alle Browser und Plattformen" />
+        <meta property="og:image" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-512x512.png" />
+        <meta property="og:url" content="/" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Universal PWA Installer" />
+        <meta name="twitter:description" content="Browser-intelligente PWA-Installation für optimale App-Erfahrung" />
+        <meta name="twitter:image" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-512x512.png" />
+
+        <!-- Apple Touch Icons (Legacy support) -->
+        <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-128x128.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-128x128.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+
+        <!-- Standard Favicon -->
+        <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+        <link rel="shortcut icon" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" />
+
+        <!-- Manifest -->
+        <link rel="manifest" href="/manifest.json" />
+
+        <!-- Microsoft Tiles -->
+        <meta name="msapplication-TileColor" content="#16213e" />
+        <meta name="msapplication-TileImage" content="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-144x144.png" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+
+        <!-- Preload Critical Resources -->
+        <link rel="preload" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-192x192.png" as="image" />
+        <link rel="preload" href="https://raw.githubusercontent.com/Jamancode/jamancode.github.io/main/images/icon-72x72.png" as="image" />
+
+        <!-- DNS Prefetch for External Resources -->
+        <link rel="dns-prefetch" href="//raw.githubusercontent.com" />
+
+        <title>Universal PWA Installer - Dein digitaler Angelfreund</title>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+        <a
+            id="emergent-badge"
+            target="_blank"
+            href="https://app.emergent.sh/?utm_source=emergent-badge"
+            style="
+                display: flex !important;
+                align-items: center !important;
+                position: fixed !important;
+                bottom: 20px;
+                right: 20px;
+                text-decoration: none;
+                padding: 6px 10px;
+                font-family: -apple-system, BlinkMacSystemFont,
+                    &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu, Cantarell,
+                    &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;,
+                    sans-serif !important;
+                font-size: 12px !important;
+                z-index: 9999 !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+                border-radius: 8px !important;
+                background-color: #ffffff !important;
+                border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            "
+        >
+            <div
+                style="display: flex; flex-direction: row; align-items: center"
+            >
+                <img
+                    style="width: 20px; height: 20px; margin-right: 8px"
+                    src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4"
+                />
+                <p
+                    style="
+                        color: #000000;
+                        font-family: -apple-system, BlinkMacSystemFont,
+                            &quot;Segoe UI&quot;, Roboto, Oxygen, Ubuntu,
+                            Cantarell, &quot;Open Sans&quot;,
+                            &quot;Helvetica Neue&quot;, sans-serif !important;
+                        font-size: 12px !important;
+                        align-items: center;
+                        margin-bottom: 0;
+                    "
+                >
+                    Made with Emergent
+                </p>
+            </div>
+        </a>
+        <script>
+            !(function (t, e) {
+                var o, n, p, r;
+                e.__SV ||
+                    ((window.posthog = e),
+                    (e._i = []),
+                    (e.init = function (i, s, a) {
+                        function g(t, e) {
+                            var o = e.split(".");
+                            2 == o.length && ((t = t[o[0]]), (e = o[1])),
+                                (t[e] = function () {
+                                    t.push(
+                                        [e].concat(
+                                            Array.prototype.slice.call(
+                                                arguments,
+                                                0,
+                                            ),
+                                        ),
+                                    );
+                                });
+                        }
+                        ((p = t.createElement("script")).type =
+                            "text/javascript"),
+                            (p.crossOrigin = "anonymous"),
+                            (p.async = !0),
+                            (p.src =
+                                s.api_host.replace(
+                                    ".i.posthog.com",
+                                    "-assets.i.posthog.com",
+                                ) + "/static/array.js"),
+                            (r =
+                                t.getElementsByTagName(
+                                    "script",
+                                )[0]).parentNode.insertBefore(p, r);
+                        var u = e;
+                        for (
+                            void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
+                                u.people = u.people || [],
+                                u.toString = function (t) {
+                                    var e = "posthog";
+                                    return (
+                                        "posthog" !== a && (e += "." + a),
+                                        t || (e += " (stub)"),
+                                        e
+                                    );
+                                },
+                                u.people.toString = function () {
+                                    return u.toString(1) + ".people (stub)";
+                                },
+                                o =
+                                    "init me ws ys ps bs capture je Di ks register register_once register_for_session unregister unregister_for_session Ps getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Es $s createPersonProfile Is opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Ss debug xs getPageViewId captureTraceFeedback captureTraceMetric".split(
+                                        " ",
+                                    ),
+                                n = 0;
+                            n < o.length;
+                            n++
+                        )
+                            g(u, o[n]);
+                        e._i.push([i, s, a]);
+                    }),
+                    (e.__SV = 1));
+            })(document, window.posthog || []);
+            posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
+                api_host: "https://us.i.posthog.com",
+                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+            });
+        </script>
+    </body>
+</html>
