@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <!-- PWA Theme and Colors -->
+    <meta name="theme-color" content="#16213e" />
+    <meta name="msapplication-navbutton-color" content="#16213e" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Universal PWA Installer" />
+    <meta name="application-name" content="PWA Installer" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- SEO and Description -->
+    <meta name="description" content="Universaler PWA-Installer der verschiedene Browser erkennt und die optimale Installationsmethode bereitstellt. Verwandelt Web-Apps in native App-Erfahrungen." />
+    <meta name="keywords" content="PWA, Progressive Web App, Installation, Browser, Universal, Chrome, Safari, Firefox, Edge" />
+    <meta name="author" content="Jamancode" />
+
+    <!-- Open Graph / Social Media (Pfade ggf. anpassen) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Universal PWA Installer" />
+    <meta property="og:description" content="Universaler PWA-Installer für alle Browser und Plattformen" />
+    <meta property="og:image" content="images/icon-512x512.png" />
+    <meta property="og:url" content="/" />
+
+    <!-- Twitter Card (Pfade ggf. anpassen) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Universal PWA Installer" />
+    <meta name="twitter:description" content="Browser-intelligente PWA-Installation für optimale App-Erfahrung" />
+    <meta name="twitter:image" content="images/icon-512x512.png" />
+
+    <!-- Apple Touch Icons (Pfade ggf. anpassen) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon-192x192.png" />
+    <!-- Weitere Apple Touch Icons hier einfügen, falls benötigt -->
+
+    <!-- Standard Favicon (Pfade ggf. anpassen) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon-72x72.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icon-72x72.png" />
+    <link rel="shortcut icon" href="images/icon-72x72.png" />
+
+    <!-- Manifest (Pfad ggf. anpassen) -->
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Microsoft Tiles (Pfade ggf. anpassen) -->
+    <meta name="msapplication-TileColor" content="#16213e" />
+    <meta name="msapplication-TileImage" content="images/icon-144x144.png" />
+    <!-- <meta name="msapplication-config" content="browserconfig.xml" /> -->
+
+    <title>Universal PWA Installer</title>
+
+    <!-- Link zur CSS-Datei (wird in Schritt 2 erstellt) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <header id="app-header">
+        <!-- Logo (img-Platzhalter) und Überschriften -->
+        <img src="images/logo.png" alt="Universal PWA Installer Logo" id="app-logo">
+        <h1>Universal PWA Installer</h1>
+        <p>Verwandelt Web-Apps in native App-Erfahrungen</p>
+    </header>
+
+    <main>
+        <section id="browser-detection">
+            <h2><span class="icon">🔍</span> Browser-Erkennung</h2>
+            <div id="browser-info-display">
+                <img src="images/browser-placeholder.png" alt="Browser Logo" id="browser-logo">
+                <div>
+                    <strong id="browser-name">Browser wird erkannt...</strong>
+                    <p id="browser-platform">Plattform...</p>
+                </div>
+            </div>
+            <div id="feature-checks">
+                <!-- Platzhalter für Feature-Checks, z.B. -->
+                <div class="feature-check-item">
+                    <span class="status-icon">❓</span>
+                    <strong>Service Worker</strong>
+                    <p>Offline-Funktionalität</p>
+                </div>
+                <div class="feature-check-item">
+                    <span class="status-icon">❓</span>
+                    <strong>Install Prompt</strong>
+                    <p>Automatische Installation</p>
+                </div>
+                <div class="feature-check-item">
+                    <span class="status-icon">❓</span>
+                    <strong>Standalone Mode</strong>
+                    <p>Bereits als PWA installiert</p>
+                </div>
+                <div class="feature-check-item">
+                    <span class="status-icon">❓</span>
+                    <strong>Mobile Platform</strong>
+                    <p>Mobile Optimierungen</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation-area">
+            <!-- Hier wird der browser-spezifische Installer-Content per JS geladen -->
+            <p>Installationsanweisungen werden geladen...</p>
+        </section>
+
+        <!-- Firefox Desktop Sektion (Struktur basierend auf Beschreibung) -->
+        <section id="firefox-fallback-section" class="installer-section" style="display: none;">
+            <h2><img src="images/firefox-logo.png" alt="Firefox Logo" class="section-icon"> Firefox Desktop - Extension oder Fallback</h2>
+            <p>Firefox Desktop unterstützt PWAs nicht nativ. Wir bieten Ihnen die besten Alternativen:</p>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="extension-panel">
+                    <span class="icon">🔧</span> Extension (Empfohlen)
+                </button>
+                <button class="tab-button" data-tab="shortcut-panel">
+                    <span class="icon">💻</span> Desktop-Shortcut
+                </button>
+            </div>
+            <div id="extension-panel" class="tab-panel active">
+                <h4><span class="icon">🔧</span> PWAsForFirefox Extension</h4>
+                <p>Die beste Lösung für Firefox Desktop PWAs</p>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div>
+                        <strong>Extension herunterladen</strong>
+                        <p>Installieren Sie PWAsForFirefox aus dem Firefox Add-ons Store</p>
+                        <button id="firefox-extension-install-btn"><span class="icon">⬇️</span> Extension installieren</button>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div>
+                        <strong>Firefox neu starten</strong>
+                        <p>Starten Sie Firefox nach der Installation neu</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div>
+                        <strong>Seite neu laden</strong>
+                        <p>Laden Sie diese Seite neu für die PWA-Installation</p>
+                        <button id="firefox-reload-btn"><span class="icon">🔄</span> Seite neu laden</button>
+                    </div>
+                </div>
+                <div class="extension-benefits">
+                    <strong>✨ Extension Vorteile</strong>
+                    <ul>
+                        <li>✔️ Echte PWA-Installation in Firefox</li>
+                        <li>🏠 App-Icons im Startmenü/Desktop</li>
+                        <li>⚡ Separater App-Prozess</li>
+                        <li>⚙️ Vollständiger Service Worker Support</li>
+                        <li>📋 PWA-Management Interface</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="shortcut-panel" class="tab-panel">
+                <h4><span class="icon">💻</span> Desktop-Shortcut erstellen</h4>
+                <p>Anleitung zum Erstellen eines Desktop-Shortcuts...</p>
+                <button id="firefox-create-shortcut-btn">Shortcut erstellen</button>
+            </div>
+        </section>
+
+        <!-- iOS Installer Sektion (Struktur basierend auf Beschreibung) -->
+        <section id="ios-installer-section" class="installer-section" style="display: none;">
+            <h2><span class="icon">📱</span> iOS Safari - Manuelle Installation</h2>
+            <p>Apple Safari erfordert eine manuelle Installation über das Teilen-Menü.</p>
+            <div class="step">
+                <span class="step-number">1</span>
+                <div>
+                    <strong>Teilen-Symbol antippen</strong>
+                    <p>Tippen Sie auf das Teilen-Symbol (<img src="images/ios-share-icon.png" alt="iOS Share Icon" class="inline-icon">) unten in Safari.</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <div>
+                    <strong>"Zum Home-Bildschirm" finden</strong>
+                    <p>Scrollen Sie in den Optionen nach unten und wählen Sie "Zum Home-Bildschirm" (<img src="images/ios-add-to-home-icon.png" alt="iOS Add to Home Icon" class="inline-icon">).</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <div>
+                    <strong>Installation bestätigen</strong>
+                    <p>Überprüfen Sie den App-Namen und tippen Sie "Hinzufügen".</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chrome/Edge Installer Sektion -->
+        <section id="chrome-installer-section" class="installer-section" style="display: none;">
+            <h2><span class="icon">📲</span> Chrome/Edge - Automatische Installation</h2>
+            <p>Ihr Browser unterstützt die automatische PWA-Installation!</p>
+            <button id="chrome-install-btn" style="display: none;">
+                <span class="icon">⬇️</span> App installieren
+            </button>
+            <p id="chrome-install-instructions" style="display: none;">Falls der Button nicht erscheint, suchen Sie das Installationsicon in der Adressleiste oder im Browser-Menü.</p>
+        </section>
+
+        <!-- Fallback Installer Sektion -->
+        <section id="fallback-installer-section" class="installer-section" style="display: none;">
+            <h2><span class="icon">❓</span> Andere Browser - Manuelle Optionen</h2>
+            <p>Ihr Browser unterstützt möglicherweise keine direkte PWA-Installation. Hier sind einige Alternativen:</p>
+            <button id="fallback-bookmark-btn"><span class="icon">🔖</span> Als Lesezeichen speichern</button>
+            <button id="fallback-homescreen-btn"><span class="icon">🏠</span> Zum Startbildschirm hinzufügen (Versuch)</button>
+            <button id="fallback-offline-file-btn"><span class="icon">💾</span> Offline-Datei erstellen</button>
+        </section>
+
+        <!-- Installation Success Sektion -->
+        <section id="installation-success-section" class="installer-section" style="display: none;">
+            <h2><span class="icon">🎉</span> Installation Erfolgreich!</h2>
+            <p>Die App wurde erfolgreich als PWA installiert und ist nun einsatzbereit.</p>
+        </section>
+
+        <section id="additional-options">
+            <h3><span class="icon">⚙️</span> Weitere Optionen</h3>
+            <div class="option-block">
+                <span class="icon">🔖</span>
+                <h4>Als Lesezeichen speichern</h4>
+                <p>Fügen Sie die Seite zur Lesezeichen-Symbolleiste hinzu</p>
+                <button id="additional-bookmark-btn"><span class="icon">🔖</span> Lesezeichen erstellen</button>
+            </div>
+            <div class="option-block">
+                <span class="icon">🏠</span>
+                <h4>Zur Startseite machen</h4>
+                <p>Legen Sie diese Seite als Firefox-Startseite fest</p>
+                <button id="additional-homepage-btn"><span class="icon">🏠</span> Startseite festlegen</button>
+            </div>
+        </section>
+
+        <section id="troubleshooting">
+            <h3><span class="icon">❓</span> Problembehebung</h3>
+            <div class="collapsible-header">
+                <span>▼ Extension funktioniert nicht?</span>
+            </div>
+            <div class="collapsible-content">
+                <p>Stellen Sie sicher, dass Sie die neueste Version installiert haben und Firefox neugestartet wurde.</p>
+            </div>
+            <div class="collapsible-header">
+                <span>▼ Shortcut startet nicht?</span>
+            </div>
+            <div class="collapsible-content">
+                <p>Überprüfen Sie die Dateiberechtigungen und stellen Sie sicher, dass Firefox korrekt installiert ist.</p>
+            </div>
+            <div class="collapsible-header">
+                <span>▼ Alternative Browser?</span>
+            </div>
+            <div class="collapsible-content">
+                <p>Für die beste PWA-Erfahrung empfehlen wir Chrome, Edge oder Firefox Mobile.</p>
+            </div>
+        </section>
+
+        <section id="pwa-advantages">
+            <h3><span class="icon">🚀</span> PWA Vorteile</h3>
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <span class="icon">📱</span>
+                    <h5>Native App-Gefühl</h5>
+                    <p>Läuft wie eine echte App mit eigenem Icon im Homescreen.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="icon">⚡</span>
+                    <h5>Blitzschnell</h5>
+                    <p>Startet sofort ohne Browser-Overhead.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="icon">🔄</span>
+                    <h5>Offline-Fähig</h5>
+                    <p>Funktioniert auch ohne Internetverbindung.</p>
+                </div>
+                <div class="advantage-card">
+                    <span class="icon">🔔</span>
+                    <h5>Push-Benachrichtigungen</h5>
+                    <p>Bleiben Sie über wichtige Updates informiert.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="browser-support">
+            <h3><span class="icon">🌐</span> Browser-Unterstützung</h3>
+            <div class="browser-grid">
+                <div class="browser-card">
+                    <img src="images/chrome-logo.png" alt="Chrome">
+                    <h6>Chrome</h6>
+                    <span class="rating-badge excellent">Exzellent</span>
+                    <p>Automatische Installation mit erweiterten Features.</p>
+                </div>
+                <div class="browser-card">
+                    <img src="images/edge-logo.png" alt="Edge">
+                    <h6>Edge</h6>
+                    <span class="rating-badge excellent">Exzellent</span>
+                    <p>Vollständige PWA-Unterstützung wie Chrome.</p>
+                </div>
+                <div class="browser-card">
+                    <img src="images/safari-logo.png" alt="Safari">
+                    <h6>Safari</h6>
+                    <span class="rating-badge good">Gut</span>
+                    <p>Manuelle Installation über "Zum Home-Bildschirm".</p>
+                </div>
+                <div class="browser-card">
+                    <img src="images/firefox-logo.png" alt="Firefox">
+                    <h6>Firefox</h6>
+                    <span class="rating-badge limited">Begrenzt</span>
+                    <p>Desktop: Extension erforderlich, Mobile: Vollständig.</p>
+                </div>
+                <div class="browser-card">
+                    <img src="images/samsung-internet-logo.png" alt="Samsung Internet">
+                    <h6>Samsung Internet</h6>
+                    <span class="rating-badge good">Gut</span>
+                    <p>WebAPK-Unterstützung auf Samsung-Geräten.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Universal PWA Installer</p>
+        <p>Ursprünglich entwickelt für den Fangplaner</p>
+    </footer>
+
+    <!-- Link zur JavaScript-Datei (wird in späteren Schritten erstellt und gefüllt) -->
+    <script src="script.js"></script>
+</body>
+</html>

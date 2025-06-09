@@ -1,0 +1,854 @@
+/* Universal PWA Installer Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Scheme - Ocean/Water Theme */
+  --bg-primary: #0a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #1e2a4a;
+  --bg-water: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #0a1a2e 100%);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #a0aec0;
+  --text-accent: #63b3ed;
+
+  --accent-blue: #3182ce;
+  --accent-cyan: #0bc5ea;
+  --accent-green: #38a169;
+  --accent-orange: #dd6b20;
+  --accent-red: #e53e3e;
+
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.4);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Water Animation Background */
+.water-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-water);
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.water-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(99, 179, 237, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(11, 197, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(49, 130, 206, 0.05) 0%, transparent 50%);
+  animation: waterFlow 20s ease-in-out infinite;
+}
+
+@keyframes waterFlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-5px) rotate(0deg); }
+  75% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+/* Base App Styles */
+.App { /* Diese Klasse wird in der reinen HTML-Version wahrscheinlich body oder ein #main-container sein */
+  min-height: 100vh;
+  background: transparent; /* Da .water-bg den Hintergrund setzt */
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+/* Anpassung für die neue Struktur: body statt .App */
+body {
+  min-height: 100vh;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+
+/* Header */
+/* .app-header wird zu header#app-header */
+header#app-header {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: rgba(16, 33, 62, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* Hinzugefügt für Layout des Inhalts */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Entferne .header-content, da die Styles direkt auf header#app-header angewendet werden können oder spezifischer werden */
+
+img#app-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+img#app-logo:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+header#app-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text-accent), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+header#app-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Main Content */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Installation Container - wird zu section Elementen mit .installer-section */
+.installer-section, section#browser-detection, section#additional-options, section#troubleshooting, section#pwa-advantages, section#browser-support {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: rgba(30, 42, 74, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Browser Detection Card spezifische Anpassungen */
+section#browser-detection h2 .icon {
+    margin-right: 0.5em;
+}
+
+div#browser-info-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem; /* Added for spacing */
+}
+
+img#browser-logo {
+  font-size: 2rem; /* Fallback falls Bild nicht lädt, Icon-Styling */
+  padding: 0.5rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  width: 48px; /* Beispielgröße */
+  height: 48px; /* Beispielgröße */
+}
+
+div#browser-info-display strong {
+  color: var(--text-accent);
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+div#feature-checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.feature-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+}
+
+.feature-check-item.supported {
+  border-left: 3px solid var(--accent-green);
+}
+
+.feature-check-item.not-supported {
+  border-left: 3px solid var(--accent-red);
+}
+
+.feature-check-item .status-icon {
+    font-size: 1.2em;
+}
+
+/* Installation Strategy Cards (Allgemein für .installer-section) */
+.installer-section h2 .section-icon {
+    width: 32px; /* Beispielgröße für Sektions-Icons */
+    height: 32px;
+    margin-right: 0.5em;
+    vertical-align: middle;
+}
+
+.installer-section .strategy-icon { /* Für Icons innerhalb der spezifischen Anleitungen */
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block; /* Um margin-bottom zu wirken */
+  text-align: center;
+}
+
+.installer-section .strategy-title { /* Wird zu h2 oder h3 innerhalb der Sektion */
+  font-size: 1.8rem;
+  color: var(--text-accent);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.installer-section .strategy-description {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Install Buttons */
+button, .install-button /* .install-button beibehalten für Konsistenz mit JS-Logik */
+{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  margin: 0.5rem;
+  box-shadow: var(--shadow);
+}
+
+button:hover, .install-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+button:active, .install-button:active {
+  transform: translateY(0);
+}
+
+button.secondary, .install-button.secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+button.danger, .install-button.danger {
+  background: linear-gradient(135deg, var(--accent-red), #c53030);
+}
+
+/* Manual Installation Steps */
+.installation-steps /* Wird jetzt direkt .step sein, das in HTML definiert ist */
+{
+  text-align: left;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--accent-cyan);
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--accent-blue);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step strong /* Anpassung für h4 in .step-content */
+{
+  color: var(--text-accent);
+  margin-bottom: 0.5rem;
+  display: block; /* Damit margin-bottom wirkt */
+}
+
+.step-visual {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  text-align: center;
+  border: 2px dashed var(--border-color);
+}
+
+.share-icon-highlight {
+  font-size: 2rem;
+  animation: pulse 2s infinite;
+  color: var(--accent-cyan);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Success State */
+#installation-success-section /* .installation-success wird zu section#installation-success-section */
+{
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+#installation-success-section .success-icon /* .success-icon bleibt, aber spezifischer */
+{
+  font-size: 5rem;
+  color: var(--accent-green);
+  margin-bottom: 1.5rem;
+  animation: successBounce 1s ease-out;
+}
+
+@keyframes successBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+#installation-success-section h2 /* .success-title wird zu h2 */
+{
+  font-size: 2rem;
+  color: var(--accent-green);
+  margin-bottom: 1rem;
+}
+
+#installation-success-section p /* .success-description wird zu p */
+{
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Features Section */
+section#pwa-advantages h3 .icon, section#browser-support h3 .icon, section#additional-options h3 .icon, section#troubleshooting h3 .icon {
+    margin-right: 0.5em;
+}
+
+section#pwa-advantages {
+  text-align: center;
+}
+
+section#pwa-advantages h3 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-accent);
+}
+
+.advantage-grid /* .features-grid wird zu .advantage-grid */
+{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Angepasst von 300px */
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.advantage-card /* .feature-card wird zu .advantage-card */
+{
+  background: rgba(30, 42, 74, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  text-align: center; /* Hinzugefügt aus Beschreibung */
+}
+
+.advantage-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-cyan);
+}
+
+.advantage-card .icon /* .feature-icon wird zu .advantage-card .icon */
+{
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block; /* Sicherstellen, dass margin wirkt */
+}
+
+.advantage-card h5 /* h3 wird zu h5 */
+{
+  color: var(--text-accent); /* In Beschreibung blau */
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.advantage-card p {
+    color: var(--text-secondary); /* In Beschreibung grau */
+}
+
+/* Browser Support Matrix */
+section#browser-support {
+  text-align: center;
+}
+
+section#browser-support h3 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-accent);
+}
+
+.browser-grid /* .support-matrix wird zu .browser-grid */
+{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Angepasst von 250px */
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.browser-card /* .browser-support-item wird zu .browser-card */
+{
+  background: rgba(222, 227, 233, 0.9); /* Hellgrauer Hintergrund aus Beschreibung */
+  backdrop-filter: blur(5px); /* Leichter blur für hellen Hintergrund */
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+  color: var(--bg-primary); /* Dunkle Schrift auf hellem Grund */
+}
+
+.browser-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.browser-card img /* .browser-icon wird zu img, plus Wrapper für Styling */
+{
+  display: block; /* Zentrieren */
+  margin: 0 auto 1rem auto;
+  width: 48px; /* Beispielgröße */
+  height: 48px;
+  /* Dunkelblauer, kreisförmiger Hintergrund für das Logo */
+  background-color: var(--bg-secondary);
+  border-radius: 50%;
+  padding: 8px; /* Innenabstand für das Logo */
+}
+
+.browser-card h6 /* h4 wird zu h6 */
+{
+  color: var(--bg-primary); /* Schwarze/dunkelgraue Schrift */
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.rating-badge /* .support-level wird zu .rating-badge */
+{
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.rating-badge.excellent {
+  background: var(--accent-green);
+}
+
+.rating-badge.good {
+  background: var(--accent-cyan);
+}
+
+.rating-badge.limited {
+  background: var(--accent-orange);
+}
+
+.browser-card p {
+    color: #4a5568; /* Graue Schrift */
+    font-size: 0.9rem;
+}
+
+
+/* iOS Specific Styles - Übernommen, aber Selektoren ggf. anpassen */
+/* section#ios-installer-section ... */
+
+.ios-guide {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.ios-share-animation { /* Beispiel, falls Animation gewünscht */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  margin: 1rem 0;
+}
+
+img.inline-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: middle;
+    margin: 0 0.2em;
+}
+
+/* Firefox Extension Styles - Übernommen, Selektoren ggf. anpassen */
+/* section#firefox-fallback-section ... */
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.tab-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    border-color: var(--accent-cyan);
+    background: var(--bg-secondary);
+}
+
+.tab-button.active {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+.tab-panel {
+    display: none; /* Wird per JS auf 'block' oder 'flex' gesetzt */
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.extension-benefits {
+  background: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-left: 4px solid #ff9500; /* Firefox Orange */
+}
+
+.extension-benefits ul {
+  list-style: none; /* Eigene List-Styles für ✔️ */
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.extension-benefits li {
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+  margin-bottom: 0.5em;
+}
+
+.extension-benefits li::before {
+  content: "✔️ "; /* Emoji als List-Style-Type */
+  color: var(--accent-green);
+  margin-right: 0.5em;
+}
+
+
+/* Additional Options Section */
+section#additional-options {
+    text-align: center;
+}
+
+section#additional-options .option-block {
+    background: var(--bg-secondary); /* Dunkelblauer Hintergrund aus Beschreibung, aber heller als Sektionshintergrund */
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin: 1rem; /* Für Abstand zwischen den Blöcken */
+    display: inline-block; /* Für Nebeneinander mit text-align: center auf Parent */
+    width: calc(50% - 2rem); /* Für zwei Blöcke nebeneinander, mit margin */
+    min-width: 250px; /* Mindestbreite */
+    vertical-align: top;
+    text-align: left;
+}
+
+section#additional-options .option-block .icon {
+    font-size: 1.5rem;
+    margin-right: 0.5em;
+    display: block; /* Icon über Text */
+    margin-bottom: 0.5rem;
+}
+
+section#additional-options .option-block h4 {
+    color: var(--text-accent);
+    margin-bottom: 0.5rem;
+}
+
+section#additional-options .option-block p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+section#additional-options .option-block button {
+    background: var(--bg-primary); /* Dunklerer Button */
+}
+
+/* Troubleshooting Section */
+section#troubleshooting .collapsible-header {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+    display: flex; /* Für Pfeil-Icon */
+    justify-content: space-between; /* Für Pfeil-Icon */
+    align-items: center; /* Für Pfeil-Icon */
+}
+
+section#troubleshooting .collapsible-header:hover {
+    background: var(--bg-secondary);
+}
+
+section#troubleshooting .collapsible-content {
+    padding: 1rem;
+    background: var(--bg-primary); /* Dunklerer Hintergrundkasten */
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    display: none; /* Initial versteckt */
+    margin-bottom: 0.5rem;
+}
+
+section#troubleshooting .collapsible-content.open {
+    display: block;
+}
+
+section#troubleshooting .collapsible-content strong {
+    color: var(--accent-orange); /* Für Fragen oder Warnungen */
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header#app-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  header#app-header h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .installer-section, section#browser-detection, section#additional-options, section#troubleshooting, section#pwa-advantages, section#browser-support {
+    padding: 1.5rem;
+  }
+
+  .advantage-grid, .browser-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  div#feature-checks {
+    grid-template-columns: 1fr;
+  }
+
+  .step {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  section#additional-options .option-block {
+    width: calc(100% - 2rem);
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  header#app-header {
+    padding: 1rem;
+  }
+
+  header#app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .installer-section .strategy-title {
+    font-size: 1.5rem;
+  }
+
+  button, .install-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: rgba(16, 33, 62, 0.9);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  margin-top: 4rem;
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+/* Animation Utilities */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Spezifische Anpassungen für die HTML-Struktur */
+/* Icons als Text oder über ::before einfügen, falls keine Bilder verwendet werden */
+.icon { /* Generische Klasse für Text-Icons */
+    display: inline-block;
+    /* Ggf. spezifische Styles für Icons hier */
+}
+
+/* Chrome Install Prompt spezifische Styles (falls noch benötigt) */
+#chrome-installer-section #chrome-install-btn {
+    /* Styles für den Hauptinstallationsbutton in Chrome */
+}
+
+#chrome-installer-section .install-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+#chrome-installer-section .install-benefits li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#chrome-installer-section .install-benefits li:last-child {
+  border-bottom: none;
+}
+
+/* iOS Specific Styles */
+#ios-installer-section .ios-info {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+#ios-installer-section .ios-capabilities {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+#ios-installer-section .ios-capabilities .capability span:first-child {
+    margin-right: 0.5em;
+}
+
+#ios-installer-section .safari-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  color: #333;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  margin: 1rem 0;
+}
+
+#ios-installer-section .safari-toolbar .toolbar-buttons {
+  display: flex;
+  gap: 1rem;
+  font-weight: bold;
+}
+
+#ios-installer-section .safari-toolbar .url-bar {
+  flex: 1;
+  text-align: center;
+  color: #666;
+}
+
+#ios-installer-section .arrow-indicator {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+#ios-installer-section .arrow-indicator p {
+  font-size: 0.875rem;
+  color: var(--accent-cyan);
+  margin-top: 0.25rem;
+}
